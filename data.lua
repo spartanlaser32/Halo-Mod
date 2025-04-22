@@ -1,11 +1,30 @@
 --data.lua
 require("recipe")
-
+require("constants")
+require("projectiles")
+require("guns.Halo CE.halo-ce-ar")
+require("guns.Halo CE.halo-ce-pistol")
+require("guns.Halo CE.halo-ce-sniper-rifle")
+require("guns.Halo CE.halo-ce-shotgun")
+require("guns.Halo CE.halo-ce-rocket-launcher")
+require("guns.Halo CE.halo-ce-plasma-rifle")
+require("guns.Halo CE.halo-ce-plasma-pistol")
+require("guns.Halo CE.halo-ce-fuel-rod-cannon")
+require("guns.Halo CE.halo-ce-needler")
+require("guns.Halo Reach.halo-reach-ar")
+require("guns.Halo Reach.halo-reach-dmr")
+require("guns.Halo Reach.halo-reach-magnum")
+require("guns.Halo Reach.halo-reach-shotgun")
+require("guns.Halo Reach.halo-reach-sniper-rifle")
 local sounds = require("__base__.prototypes.entity.sounds")
 local item_sounds = require("__base__.prototypes.item_sounds")
 local item_tints = require("__base__.prototypes.item-tints")
 local simulations = require("__base__.prototypes.factoriopedia-simulations")
+
+--[[
 local halo_ce_ar = table.deepcopy(data.raw["gun"]["submachine-gun"]) -- copy the table that defines the heavy armor item into the fireArmor variable
+
+
 
 halo_ce_ar.name = "halo-ce-ar"
 halo_ce_ar.icon = "__Halo-Mod__/graphics/icons/halo-ce-ar.jpg"
@@ -20,8 +39,8 @@ halo_ce_ar.attack_parameters.cooldown = 4
 local halo_ce_pistol = table.deepcopy(data.raw["gun"]["pistol"]) -- copy the table that defines the heavy armor item into the fireArmor variable
 
 halo_ce_pistol.name = "halo-ce-pistol"
-halo_ce_pistol.icon = "__Halo-Mod__/graphics/icons/halo-ce-pistol.png"
-halo_ce_pistol.icon_size = 282
+halo_ce_pistol.icon = "__Halo-Mod__/graphics/icons/halo-ce-pistol-actual.png"
+halo_ce_pistol.icon_size = 64
 halo_ce_pistol.attack_parameters.sound = "__Halo-Mod__/sounds/pistol_fire_handgun2.wav"
 halo_ce_pistol.attack_parameters.range = 50
 halo_ce_pistol.attack_parameters.damage_modifier = 5
@@ -57,169 +76,13 @@ halo_ce_sniper.attack_parameters.cooldown = 30
 halo_ce_sniper.attack_parameters.range = 200
 halo_ce_sniper.attack_parameters.damage_modifier = 5
 
-
-data:extend{halo_ce_ar, halo_ce_pistol, halo_ce_shotgun, halo_ce_rocket, halo_ce_sniper,{
-    type = "projectile",
-    name = "plasma-projectile",
-    flags = {"not-on-map"},
-    hidden = true,
-    collision_box = {{-0.3, -1.1}, {0.3, 1.1}},
-    acceleration = 0,
-    direction_only = true,
-    piercing_damage = 1000,
-    action =
+--data.raw['item']['nutrients'].spoil_ticks = -1 * minute
+data:extend{halo_ce_ar, halo_ce_pistol, halo_ce_shotgun, halo_ce_rocket, halo_ce_sniper,
     {
-      type = "direct",
-      action_delivery =
-      {
-        type = "instant",
-        target_effects =
-        {
-          {
-            type = "damage",
-            damage = {amount = 10 , type = "electric"}
-          },
-          {
-            type = "damage",
-            damage = {amount = 10 , type = "laser"}
-          }
-        }
-      }
-    },
-    final_action =
-    {
-      type = "direct",
-      action_delivery =
-      {
-        type = "instant",
-        target_effects =
-        {
-          {
-            type = "create-entity",
-            entity_name = "small-scorchmark-tintable",
-            check_buildability = true
-          }
-        }
-      }
-    },
-    animation =
-    {
-      filename = "__Halo-Mod__/graphics/entity/bullet/halo-plasma-small.png",
-      draw_as_glow = true,
-      width = 3,
-      height = 40,
-      priority = "high"
-    }
-  },{
-    type = "projectile",
-    name = "green-plasma-projectile",
-    flags = {"not-on-map"},
-    hidden = true,
-    collision_box = {{-0.3, -1.1}, {0.3, 1.1}},
-    acceleration = 0,
-    direction_only = true,
-    piercing_damage = 1000,
-    action =
-    {
-      type = "direct",
-      action_delivery =
-      {
-        type = "instant",
-        target_effects =
-        {
-          {
-            type = "damage",
-            damage = {amount = 10 , type = "electric"}
-          },
-          {
-            type = "damage",
-            damage = {amount = 10 , type = "laser"}
-          }
-        }
-      }
-    },
-    final_action =
-    {
-      type = "direct",
-      action_delivery =
-      {
-        type = "instant",
-        target_effects =
-        {
-          {
-            type = "create-entity",
-            entity_name = "small-scorchmark-tintable",
-            check_buildability = true
-          }
-        }
-      }
-    },
-    animation =
-    {
-      filename = "__Halo-Mod__/graphics/entity/bullet/halo-green-plasma.png",
-      draw_as_glow = true,
-      width = 3,
-      height = 42,
-      priority = "high"
-    }
-  },{
-    type = "projectile",
-    name = "needle-projectile",
-    flags = {"not-on-map"},
-    turn_speed = 0.003,
-    hidden = true,
-    collision_box = {{-0.3, -1.1}, {0.3, 1.1}},
-    acceleration = 0,
-    direction_only = true,
-    piercing_damage = 1000,
-    action =
-    {
-      type = "direct",
-      action_delivery =
-      {
-        type = "instant",
-        target_effects =
-        {
-          {
-            type = "damage",
-            damage = {amount = 10 , type = "poison"}
-          },
-          {
-            type = "damage",
-            damage = {amount = 10 , type = "explosion"}
-          }
-        }
-      }
-    },
-    final_action =
-    {
-      type = "direct",
-      action_delivery =
-      {
-        type = "instant",
-        target_effects =
-        {
-          {
-            type = "create-entity",
-            entity_name = "small-scorchmark-tintable",
-            check_buildability = true
-          }
-        }
-      }
-    },
-    animation =
-    {
-      filename = "__Halo-Mod__/graphics/entity/bullet/halo-needle-small.png",
-      draw_as_glow = true,
-      width = 3,
-      height = 27,
-      priority = "high"
-    }
-  },{
     type = "gun",
     name = "halo-ce-plasma-rifle",
-    icon = "__Halo-Mod__/graphics/icons/halo-ce-plasma-rifle.png",
-    icon_size = 650,
+    icon = "__Halo-Mod__/graphics/icons/halo-ce-plasma-rifle-actual.png",
+    icon_size = 64,
     subgroup = "gun",
     order = "a[basic-clips]-b[submachine-gun]",
     inventory_move_sound = item_sounds.weapon_large_inventory_move,
@@ -228,44 +91,8 @@ data:extend{halo_ce_ar, halo_ce_pistol, halo_ce_shotgun, halo_ce_rocket, halo_ce
     attack_parameters =
     {
       type = "projectile",
-      ammo_category = "bullet",
-      ammo_type = {
-        target_type = "direction",
-        action = {
-          {
-            type = "direct",
-            action_delivery =
-            {
-              {
-                type = "projectile",
-                starting_speed = 1,
-                projectile = "plasma-projectile",
-                max_range = 50,
-                source_effects =
-                {
-                  {
-                    type = "create-explosion",
-                    entity_name = "explosion-gunshot"
-                  }
-                },
-                target_effects =
-                {
-                  {
-                    type = "create-entity",
-                    entity_name = "explosion-hit",
-                    offsets = {{0, 1}},
-                    offset_deviation = {{-0.5, -0.5}, {0.5, 0.5}}
-                  },
-                  {
-                    type = "activate-impact",
-                    deliver_category = "bullet"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
+      ammo_category = "halo-plasma-rifle-ammo",
+
       cooldown = 8,
       movement_slow_down_factor = 0.7,
       projectile_creation_distance = 1.125,
@@ -280,8 +107,8 @@ data:extend{halo_ce_ar, halo_ce_pistol, halo_ce_shotgun, halo_ce_rocket, halo_ce
   },{
     type = "gun",
     name = "halo-ce-needler",
-    icon = "__Halo-Mod__/graphics/icons/halo-ce-needler-fix.png",
-    icon_size = 327,
+    icon = "__Halo-Mod__/graphics/icons/halo-ce-needler-actual.png",
+    icon_size = 64,
     subgroup = "gun",
     order = "a[basic-clips]-b[submachine-gun]",
     inventory_move_sound = item_sounds.weapon_large_inventory_move,
@@ -291,43 +118,7 @@ data:extend{halo_ce_ar, halo_ce_pistol, halo_ce_shotgun, halo_ce_rocket, halo_ce
     {
       type = "projectile",
       ammo_category = "bullet",
-      ammo_type = {
-        target_type = "direction",
-        action = {
-          {
-            type = "direct",
-            action_delivery =
-            {
-              {
-                type = "projectile",
-                starting_speed = 1,
-                projectile = "needle-projectile",
-                max_range = 50,
-                source_effects =
-                {
-                  {
-                    type = "create-explosion",
-                    entity_name = "explosion-gunshot"
-                  }
-                },
-                target_effects =
-                {
-                  {
-                    type = "create-entity",
-                    entity_name = "explosion-hit",
-                    offsets = {{0, 1}},
-                    offset_deviation = {{-0.5, -0.5}, {0.5, 0.5}}
-                  },
-                  {
-                    type = "activate-impact",
-                    deliver_category = "bullet"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
+      ,
       cooldown = 10,
       movement_slow_down_factor = 0.7,
       projectile_creation_distance = 1.125,
@@ -340,8 +131,8 @@ data:extend{halo_ce_ar, halo_ce_pistol, halo_ce_shotgun, halo_ce_rocket, halo_ce
   },{
     type = "gun",
     name = "halo-ce-plasma-pistol",
-    icon = "__Halo-Mod__/graphics/icons/halo-ce-pistol.png",
-    icon_size = 240,
+    icon = "__Halo-Mod__/graphics/icons/halo-ce-plasma-pistol-actual.png",
+    icon_size = 64,
     subgroup = "gun",
     order = "a[basic-clips]-b[submachine-gun]",
     inventory_move_sound = item_sounds.weapon_large_inventory_move,
@@ -350,7 +141,58 @@ data:extend{halo_ce_ar, halo_ce_pistol, halo_ce_shotgun, halo_ce_rocket, halo_ce
     attack_parameters =
     {
       type = "projectile",
-      ammo_category = "bullet",
+      ammo_category = "halo-plasma-pistol-ammo",
+
+      cooldown = 8,
+      movement_slow_down_factor = 0.7,
+      projectile_creation_distance = 1.125,
+      range = 18,
+      sound = {"__Halo-Mod__/sounds/plasma_rifle_fire_plasmarifle1.wav",
+      "__Halo-Mod__/sounds/plasma_rifle_fire_plasmarifle2.wav",
+      "__Halo-Mod__/sounds/plasma_rifle_fire_plasmarifle3.wav",
+      "__Halo-Mod__/sounds/plasma_rifle_fire_plasmarifle4.wav",
+    "__Halo-Mod__/sounds/plasma_rifle_fire_plasmarifle5.wav"}
+    },
+    stack_size = 5
+  },{
+    type = "delayed-active-trigger",
+    name = "weapon-cooling",
+    action = {
+      {
+        type = "direct",
+        action_delivery =
+        {
+          {
+            type = "instant",
+            source_effects = {
+              {
+              type = "script", 
+              effect_id = "weapon-cooling"
+            }
+            },
+          }
+        }
+      }
+    },
+    delay = 60,
+    cancel_when_source_is_destroyed = true
+  },{
+    type = "ammo-category",
+    name = "blank"
+  },{
+    type = "gun",
+    name = "halo-ce-fuel-rod-cannon",
+    icon = "__Halo-Mod__/graphics/icons/halo-ce-fuel-rod.png",
+    icon_size = 64,
+    subgroup = "gun",
+    order = "a[basic-clips]-b[submachine-gun]",
+    inventory_move_sound = item_sounds.weapon_large_inventory_move,
+    pick_sound = item_sounds.weapon_large_inventory_pickup,
+    drop_sound = item_sounds.weapon_large_inventory_move,
+    attack_parameters =
+    {
+      type = "projectile",
+      ammo_category = "rocket",
       ammo_type = {
         target_type = "direction",
         action = {
@@ -361,7 +203,7 @@ data:extend{halo_ce_ar, halo_ce_pistol, halo_ce_shotgun, halo_ce_rocket, halo_ce
               {
                 type = "projectile",
                 starting_speed = 1,
-                projectile = "green-plasma-projectile",
+                projectile = "fuel-rod-projectile",
                 max_range = 50,
                 source_effects =
                 {
@@ -383,6 +225,15 @@ data:extend{halo_ce_ar, halo_ce_pistol, halo_ce_shotgun, halo_ce_rocket, halo_ce
                     deliver_category = "bullet"
                   }
                 }
+              },
+              {
+                type = "instant",
+                source_effects = {
+                  {
+                  type = "script", 
+                  effect_id = "weapon_heat"
+                }
+                },
               }
             }
           }
@@ -392,11 +243,50 @@ data:extend{halo_ce_ar, halo_ce_pistol, halo_ce_shotgun, halo_ce_rocket, halo_ce
       movement_slow_down_factor = 0.7,
       projectile_creation_distance = 1.125,
       range = 18,
-      sound = {"__Halo-Mod__/sounds/plasma_rifle_fire_plasmarifle1.wav",
-      "__Halo-Mod__/sounds/plasma_rifle_fire_plasmarifle2.wav",
-      "__Halo-Mod__/sounds/plasma_rifle_fire_plasmarifle3.wav",
-      "__Halo-Mod__/sounds/plasma_rifle_fire_plasmarifle4.wav",
-    "__Halo-Mod__/sounds/plasma_rifle_fire_plasmarifle5.wav"}
+      sound = {"__Halo-Mod__/sounds/halo_ce_fuel_rod_fire.wav"}
     },
-    stack_size = 5
-  },}
+  stack_size = 5
+  }
+}
+]]
+data:extend{
+{
+  type = "ammo-category",
+  name = "blank"
+}}
+for _,weapon in ipairs(energy_weapons) do
+  local gun = table.deepcopy(data.raw["gun"][weapon])
+  gun.name = "overheated-" .. weapon
+  local cat = gun.attack_parameters.ammo_category
+  gun.attack_parameters = {
+    type = "projectile",
+    range = 0,
+    cooldown = 0,
+    ammo_category = cat,
+    ammo_type = {}
+  }
+  gun.icons = {{icon= gun.icon, tint = {1, 0, 0 }}}
+  
+  gun.icon = nil
+  gun.hidden = true
+  data:extend{gun,{
+    type = "sound",
+    name = weapon .. "-overheat",
+    filename = "__Halo-Mod__/sounds/" .. string.gsub(weapon, "-", "_") .. "_overheat.wav"
+  }}
+  data:extend{{
+    type = "recipe",
+    name = "fixing-" .. weapon,
+    icon = nil,
+    icons = {{ icon="__Halo-Mod__/graphics/icons/" .. weapon .. ".png"},{ icon="__Halo-Mod__/graphics/icons/recycling.png"}},
+    enabled = true,
+    energy_required = 8, -- time to craft in seconds (at crafting speed 1)
+    ingredients = {
+      {type = "item", name = "overheated-" .. weapon, amount = 1}
+    },
+    results = {{type = "item", name = weapon, amount = 1}}
+  }}
+
+end
+--HALO CE FUEL ROD CANNON, couldnt find official overheat sound so plasma rifle will be used as temporary standin
+

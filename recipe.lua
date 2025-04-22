@@ -1,4 +1,5 @@
-
+require("constants")
+--[[
 data:extend{
     {
         type = "recipe",
@@ -84,5 +85,31 @@ data:extend{
           {type = "item", name = "sulfur", amount = 1}
         },
         results = {{type = "item", name = "halo-ce-needler", amount = 1}}
+      },{
+        type = "recipe",
+        name = "halo-ce-fuel-rod-cannon",
+        enabled = true,
+        energy_required = 8, -- time to craft in seconds (at crafting speed 1)
+        ingredients = {
+          {type = "item", name = "rocket-launcher", amount = 1},
+          {type = "item", name = "battery", amount = 1}
+        },
+        results = {{type = "item", name = "halo-ce-fuel-rod-cannon", amount = 1}}
       }
 }
+
+for _,weapon in ipairs(energy_weapons) do
+  data:extend{{
+    type = "recipe",
+    name = "fixing-" .. weapon,
+    icons = {{}
+    enabled = true,
+    energy_required = 8, -- time to craft in seconds (at crafting speed 1)
+    ingredients = {
+      {type = "item", name = "overheated-" .. weapon, amount = 1}
+    },
+    results = {{type = "item", name = weapon, amount = 1}}
+  }}
+end
+
+]]
